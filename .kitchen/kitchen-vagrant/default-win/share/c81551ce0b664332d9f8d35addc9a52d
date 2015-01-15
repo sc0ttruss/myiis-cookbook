@@ -1,1 +1,0 @@
-{"myiis-cookbook":{"git-repo":"https://github.com/alexpop/myhtml-app","git-revision":"release-2","doc-root":"c:/inetpub/wwwroot"},"run_list":["recipe[windows::default]","recipe[git::windows]","recipe[myiis-cookbook::default]","recipe[myiis-cookbook::app-checkout]"]}

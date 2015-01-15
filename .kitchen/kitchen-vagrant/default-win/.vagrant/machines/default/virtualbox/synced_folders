@@ -1,1 +1,0 @@
-{"virtualbox":{"/tk-share":{"disabled":false,"create":true,"guestpath":"/tk-share","hostpath":"/Users/apop/gitin/myiis-cookbook/.kitchen/kitchen-vagrant/default-win/share"},"c:/share":{"disabled":false,"guestpath":"c:/share","hostpath":"/Users/apop/chef-kits"}}}
