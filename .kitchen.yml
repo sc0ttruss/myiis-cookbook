@@ -1,0 +1,39 @@
+driver:
+  forward_agent: yes
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+  require_chef_omnibus: 11.16.4
+  #require_chef_omnibus: 12.0.3-1
+  #chef_omnibus_url: 'file:///share/chef/chef-client-12.0.3-1.msi'
+  #chef_omnibus_url: 'file:///c:/share/chef/chef-client-12.0.3-1.msi'   
+
+transport:
+  name: winrm
+
+platforms:
+  - name: win
+    driver:
+      box: win2012r2
+      vm_hostname:
+      network:
+      - ["private_network", {ip: "192.168.56.31"}]
+      # Mount local /Users/apop/chef-kits folder as c:\share on the VM  
+      synced_folders:
+      - ['/Users/apop/chef-kits', 'c:/share', 'disabled: false']
+      customize:
+        cpus: 2
+        memory: 2048
+suites:
+  - name: default
+    run_list:
+      - recipe[windows::default]
+      - recipe[git::windows]
+      - recipe[myiis-cookbook::default]
+      - recipe[myiis-cookbook::app-checkout]
+    attributes:
+      myiis-cookbook:
+        git-repo: https://github.com/alexpop/myhtml-app
+        git-revision: release-2
+        doc-root: c:/inetpub/wwwroot
