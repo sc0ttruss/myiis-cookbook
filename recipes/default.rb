@@ -19,6 +19,10 @@ file 'c:/inetpub/wwwroot/iis-85.png' do
   action :delete
 end
 
+file 'c:/inetpub/wwwroot/welcome.png' do
+  action :delete
+end
+
 # Creates a directory with proper permissions
 # http://docs.opscode.com/resource_directory.html
 directory 'C:\MyKits\Chrome' do
@@ -33,12 +37,22 @@ remote_file 'C:\MyKits\Chrome\GoogleChromeStandaloneEnterprise.msi' do
   action :create
 end
 
-# Run a batch command
-# http://docs.opscode.com/resource_batch.html
-batch 'Output directory list' do
+# Run a powershell_script script
+powershell_script 'Create folder script' do
   code '
-    dir C:\MyKits\Chrome
-    echo "Hello World!"
+    if (!(Test-Path "C:\MyKits\PowershellDir")) {
+      Write-Output "*** Directory C:\MyKits\PowershellDir is missing, creating it..."
+      mkdir C:\MyKits\PowershellDir
+    }
+  '
+  action :run
+end
+
+# Run a batch script
+# http://docs.opscode.com/resource_batch.html
+batch 'Batch demo script' do
+  code '
+    dir C:\MyKits
   '
   action :run
 end
@@ -50,6 +64,20 @@ windows_package 'Google Chrome' do
   action :install
 end
 
-windows_path 'C:\Program Files (x86)\Google\Chrome\Application' do
-  action :add
+# Update Path using a DSC Environment resource
+# Requires Powershell 4+
+dsc_script 'Update Path for Chrome' do
+  code <<-EOH
+  Environment 'texteditor'
+  {
+    Name = 'Path'
+    Path = $true
+    Value = 'C:\\Program Files (x86)\\Google\\Chrome\\Application'
+  }
+  EOH
+end
+
+# Update Path using a Chef windows_path resource
+windows_path 'C:\Test' do
+	  action :add
 end
