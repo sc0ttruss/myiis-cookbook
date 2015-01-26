@@ -67,12 +67,13 @@ end
 # Update Path using a DSC Environment resource
 # Requires Powershell 4+
 dsc_script 'Update Path for Chrome' do
+  flags ({ :Drive => 'C' })
   code <<-EOH
   Environment 'texteditor'
   {
     Name = 'Path'
     Path = $true
-    Value = 'C:\\Program Files (x86)\\Google\\Chrome\\Application'
+    Value = "${Drive}:\\Program Files (x86)\\Google\\Chrome\\Application"
   }
   EOH
 end

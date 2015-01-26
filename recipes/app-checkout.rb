@@ -16,8 +16,14 @@ node.set['myiis-cookbook']['app-ver'] = 'unknown'
 git node['myiis-cookbook']['doc-root'] do
   repository node['myiis-cookbook']['git-repo']
   revision node['myiis-cookbook']['git-revision']
-#  depth 1
 	action :sync
+end
+
+powershell_script 'dir git folder' do
+  code '
+    dir c:\inetpub\wwwroot
+  '
+  action :run
 end
 
 # Get the app version from VERSION.txt and add it to the node data
