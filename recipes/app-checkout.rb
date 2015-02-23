@@ -16,7 +16,7 @@ node.set['myiis-cookbook']['app-ver'] = 'unknown'
 git node['myiis-cookbook']['doc-root'] do
   repository node['myiis-cookbook']['git-repo']
   revision node['myiis-cookbook']['git-revision']
-	action :sync
+  action :sync
 end
 
 powershell_script 'dir git folder' do

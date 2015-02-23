@@ -7,8 +7,18 @@
 
 log "*** Hello from the myiis-cookbook::install_iis recipe!"
 
+# Use the registry_key resource to change the startup type for the chef-client service
+registry_key 'HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\chef-client' do
+  values [{
+    :name => "DelayedAutostart",
+    :type => :dword,
+    :data => 1
+  }]
+  action :create
+end
+
 windows_feature 'IIS-WebServerRole' do
-	action :install
+  action :install
 end
 
 file 'c:/inetpub/wwwroot/iisstart.htm' do
@@ -23,18 +33,24 @@ file 'c:/inetpub/wwwroot/welcome.png' do
   action :delete
 end
 
-# Creates a directory with proper permissions
+# Create the directory to store the msi
 # http://docs.opscode.com/resource_directory.html
-directory 'C:\MyKits\Chrome' do
+directory 'C:\MyKits\Google' do
   action :create
   recursive true
 end
 
-# Download the Chrome msi from the source link if missing
-remote_file 'C:\MyKits\Chrome\GoogleChromeStandaloneEnterprise.msi' do
+remote_file 'C:\MyKits\Google\Chrome.msi' do
   source node['chrome']['url']
   checksum node['chrome']['checksum']
   action :create
+end
+
+# Install Chrome using windows_package
+# http://docs.opscode.com/lwrp_windows.html#windows-package
+windows_package 'Google Chrome' do
+  source 'C:\MyKits\Google\Chrome.msi'
+  action :install
 end
 
 # Run a powershell_script script
@@ -55,30 +71,4 @@ batch 'Batch demo script' do
     dir C:\MyKits
   '
   action :run
-end
-
-# Install Chrome using windows_package
-# http://docs.opscode.com/lwrp_windows.html#windows-package
-windows_package 'Google Chrome' do
-  source 'C:\MyKits\Chrome\GoogleChromeStandaloneEnterprise.msi'
-  action :install
-end
-
-# Update Path using a DSC Environment resource
-# Requires Powershell 4+
-dsc_script 'Update Path for Chrome' do
-  flags ({ :Drive => 'C' })
-  code <<-EOH
-  Environment 'texteditor'
-  {
-    Name = 'Path'
-    Path = $true
-    Value = "${Drive}:\\Program Files (x86)\\Google\\Chrome\\Application"
-  }
-  EOH
-end
-
-# Update Path using a Chef windows_path resource
-windows_path 'C:\Test' do
-	  action :add
 end
