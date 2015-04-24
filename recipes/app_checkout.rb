@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: myiis-cookbook
-# Recipe:: app-checkout
+# Recipe:: app_checkout
 #
 # Copyright 2015, Great Websites Inc
 #
