@@ -28,12 +28,18 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[windows::default]
-      - recipe[git::windows]
-      - recipe[myiis-cookbook::default]
-      - recipe[myiis-cookbook::app_checkout]
+#       - recipe[windows::default]
+       - recipe[git::default]
+       - recipe[myiis-cookbook::default]
+       - recipe[myiis-cookbook::app_checkout]
+       - recipe[myiis-cookbook::install_google_chrome]
+       - recipe[msdeploy::install]
     attributes:
+      git:
+        url: file:///c:/share/windows/Git-1.9.5-preview20150319.exe
       myiis-cookbook:
         git-repo: https://github.com/alexpop/myhtml-app
         git-revision: release-2
         doc-root: c:/inetpub/wwwroot
+        msdeploy:
+          zip: file:///c:/share/windows/all_sites-latest.zip
