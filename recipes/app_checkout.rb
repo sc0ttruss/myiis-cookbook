@@ -33,6 +33,7 @@ ruby_block 'Retrieve app version' do
     node.set['myiis-cookbook']['app-ver'] = version
   end
   only_if { File.exist?("#{node['myiis-cookbook']['doc-root']}/VERSION.txt") }
+  action :run
 end
 
 
