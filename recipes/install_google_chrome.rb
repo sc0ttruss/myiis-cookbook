@@ -11,12 +11,13 @@ remote_file 'C:\MyKits\Google\Chrome.msi' do
   source node['myiis-cookbook']['chrome']['url']
   checksum node['myiis-cookbook']['chrome']['checksum']
   action :create
+  notifies :run, "batch[dir_google]", :immediately
 end
 
 # http://docs.opscode.com/resource_batch.html
-batch 'Output directory list' do
+batch 'dir_google' do
   code 'dir C:\MyKits\Google'
-  action :run
+  action :nothing
 end
 
 # Install Chrome using windows_package
