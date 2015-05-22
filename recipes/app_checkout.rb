@@ -7,7 +7,7 @@
 
 Chef::Log.warn "*** Hello from the myiis-cookbook::install_iis recipe!"
 
-include_recipe 'git::windows'
+include_recipe 'git::default'
 
 # Add app version to node data. Unknown for now
 node.set['myiis-cookbook']['app-ver'] = 'unknown'
