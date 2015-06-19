@@ -1,4 +1,5 @@
 driver:
+  gui: false
   forward_agent: yes
   name: vagrant
 
