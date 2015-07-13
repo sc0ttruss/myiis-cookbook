@@ -20,8 +20,7 @@ transport:
 platforms:
   - name: win
     driver:
-      #box: "win2012r2-nocm"
-      box: 'opentable/win-2012r2-standard-amd64-nocm'
+      box: "win2012r2-nocm"
       vm_hostname:
       network:
       - ['private_network', {ip: '192.168.56.31'}]
