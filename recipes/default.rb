@@ -30,8 +30,8 @@ end
 # Change the timezone if needed
 powershell_script 'set-timezone' do
   code <<-EOH
-    tzutil.exe /s #{node['myiis-cookbook']['timezone']}
+    tzutil.exe /s '#{node['myiis-cookbook']['timezone']}'
   EOH
-  not_if "$(tzutil.exe /g) -eq '#{node['mywin-cookbook']['timezone']}'"
+  not_if "$(tzutil.exe /g) -eq '#{node['myiis-cookbook']['timezone']}'"
   action :run
 end
