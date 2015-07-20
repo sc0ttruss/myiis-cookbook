@@ -5,36 +5,19 @@
 # Copyright 2015, Great Websites Inc
 #
 
-Chef::Log.warn "*** Hello from the myiis-cookbook::default recipe!"
-
-# Use the 'windows_feature' resource to install IIS
+# Use the 'windows_feature' resource to idempotently install IIS
 windows_feature 'IIS-WebServerRole' do
   action :install
 end
 
-# Ensure the default IIS files are removed
-['iisstart.htm', 'iis-85.png', 'welcome.png'].each do |file|
-  file "c:/inetpub/wwwroot/#{file}" do
-    action :delete
-  end
-end
-
-# Change pagefile size. Normally goes into a base_cookbook
-memory_150p = (node['kernel']['cs_info']['total_physical_memory'].to_i / 1024 / 1024 * 1.5).to_i
-Chef::Log.warn "*** Total Memory x 1.5 = #{memory_150p}GB"
-windows_pagefile 'c:\pagefile.sys' do
-  initial_size memory_150p
-  maximum_size memory_150p
-  system_managed false
-  automatic_managed false
-  action :set
-end
-
-# Change the timezone if needed. Normally goes into a base_cookbook
-powershell_script 'set-timezone' do
+# Use the 'powershell_script' resource to ensure that the default IIS files are removed
+# Idempotentcy achieved here using the 'only_if' guard
+powershell_script 'Remove default IIS files' do
   code <<-EOH
-    tzutil.exe /s '#{node['myiis-cookbook']['timezone']}'
+    Remove-Item C:/inetpub/wwwroot/*.*
+    Get-ChildItem C:/inetpub/
   EOH
-  not_if "$(tzutil.exe /g) -eq '#{node['myiis-cookbook']['timezone']}'"
+  only_if { File.exists?('C:/inetpub/wwwroot/iisstart.htm') }
   action :run
 end
+
