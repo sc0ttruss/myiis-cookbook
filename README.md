@@ -1,20 +1,18 @@
 myiis-cookbook Cookbook
 =======================
-IIS cookbook that can be used to install and deploy code into IIS.
+Microsoft IIS(Internet Information Services) cookbook that can be used to install and deploy code into IIS.
 
 Requirements
 ------------
 
 #### COOKBOOKS
 - `git` - required by the `app_checkout` recipe in order to install `git` and use it through the custom `git` resource
-- `msdeploy` - required by the `app_msdeploy_import` recipe in order to install `msdeploy` and use it through the custom `msdeploy_sync` recipe
+- `msdeploy` - required by the `app_msdeploy_import` recipe in order to install `msdeploy` and use it through the custom `msdeploy_sync` resource
 
 Attributes
 ----------
-TODO: List your cookbook attributes here.
 
-e.g.
-#### myiis-cookbook::default
+#### myiis-cookbook::app_checkout
 <table>
   <tr>
     <th>Key</th>
@@ -39,6 +37,16 @@ e.g.
     <td>String</td>
     <td>Directory where the code will be deployed to by the app_checkout recipe</td>
     <td><tt>master</tt></td>
+  </tr>
+</table>
+
+#### myiis-cookbook::app_msdeploy_import
+<table>
+  <tr>
+    <th>Key</th>
+    <th>Type</th>
+    <th>Description</th>
+    <th>Default</th>
   </tr>
   <tr>
     <td><tt>['myiis-cookbook']['msdeploy']['zip']</tt></td>

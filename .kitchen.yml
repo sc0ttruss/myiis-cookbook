@@ -11,7 +11,7 @@ provisioner:
   chef_metadata_url: 'file:///c:/share/chef/metadata/windows_v12.4.1.txt'
   client_rb:
     # Use :enabled, :disabled or :audit_only to run the ServerSpec tests in the recipes
-    audit_mode: :disabled
+    audit_mode: :enabled
     minimal_ohai: true
 
 transport:
@@ -34,9 +34,10 @@ suites:
   - name: default
     run_list:
        - recipe[myiis-cookbook::default]
-#       - recipe[myiis-cookbook::app_checkout]
-       - recipe[myiis-cookbook::app_msdeploy_import]
-       - recipe[myiis-cookbook::install_google_chrome]
+       - recipe[myiis-cookbook::app_checkout]
+#       - recipe[myiis-cookbook::app_msdeploy_import]
+#       - recipe[myiis-cookbook::install_google_chrome]
+#       - recipe[myiis-cookbook::audit_recipe]
     attributes:
       git:
         url: file:///c:/share/windows/Git-1.9.5-preview20150319.exe
