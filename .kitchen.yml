@@ -24,9 +24,9 @@ platforms:
       vm_hostname:
       network:
       - ['private_network', {ip: '192.168.56.31'}]
-      # Mount local /Users/apop/chef-kits folder as c:\share on the VM  
+      # Mount local ./chef-kits folder as c:\share on the VM  
       synced_folders:
-      - ['/Users/apop/chef-kits', 'c:/share', 'disabled: false']
+      - ['./chef-kits', 'c:/share', 'disabled: false']
       customize:
         cpus: 2
         memory: 2048

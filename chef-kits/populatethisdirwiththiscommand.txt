@@ -1,0 +1,2 @@
+use wget or similar to download the chef client and put it in this directory.  Url is below
+https://opscode-omnibus-packages.s3.amazonaws.com/windows/2008r2/x86_64/chef-client-12.4.1-1.msi
